@@ -1,8 +1,10 @@
 import telebot
-from database.db import Vagas,session
-bot = telebot.TeleBot("8601886664:AAHGnVMlXmeOPMiG8vpvrQAjodv2ELKa1tc")
+from dotenv import load_dotenv()
+import os
+
+bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
 
 def start(text):
   
-    chat_id = "6410990747"
+    chat_id = os.getenv("ID_USUARIO")
     bot.send_message(chat_id,text)
