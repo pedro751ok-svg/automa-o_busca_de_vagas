@@ -1,10 +1,11 @@
 from playwright.sync_api import sync_playwright
 from cleaner.limpar_vagas import Limpador
 
-lista_titulos = []
-lista_link = []
-lista_requisitos = []
+
 def buscar_vagas():
+    lista_titulos = []
+    lista_link = []
+    lista_requisitos = []
     with sync_playwright() as pay:
         navegador = pay.chromium.launch(headless = False)
         contexto = navegador.new_context(storage_state="session.json")
@@ -48,6 +49,4 @@ def buscar_vagas():
         for t ,l,r in zip(lista_titulos,lista_link,lista_requisitos):
             print(t,l,r)
     return lista_titulos,lista_link,lista_requisitos
-print(len(lista_titulos))
-print(len(lista_link))
-print(len(lista_requisitos))
+
