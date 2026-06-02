@@ -23,7 +23,7 @@ class Config_db_vagas:
             start(f"Título: {titulo[:100]} \nLink: {link} \nRequisitos: {requisitos[:500]}")
 
     @staticmethod
-    def mostar_table_vagas(text, link):
+    def mostar_table_vagas( link):
         with session() as sessao:
             vaga = sessao.query(Vagas).filter_by(link=link).first()
             if not vaga:

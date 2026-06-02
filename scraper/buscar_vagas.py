@@ -1,7 +1,34 @@
 from playwright.sync_api import sync_playwright
 from cleaner.limpar_vagas import Limpador
+from urllib.parse import quote
 
+nivel = [
+    "estagio",
+    "estágio",
+    "trainee",
+    "junior",
+    "júnior",
+    "entry level",
+    "entry-level",
+    "iniciante"
+]
 
+areas = [
+    "devops",
+    "backend",
+    "cloud",
+    "devsecops",
+    "software engineer",
+    "desenvolvedor"
+]
+
+busca = (
+    f"({' OR '.join(nivel)})"
+    f"AND "
+    f"({' OR '.join(areas)})"
+    
+    )
+print(busca)
 def buscar_vagas():
     lista_titulos = []
     lista_link = []
@@ -11,8 +38,8 @@ def buscar_vagas():
         contexto = navegador.new_context(storage_state="session.json")
         pagina = contexto.new_page()
         pagina2 = contexto.new_page()
-        pagina.goto("https://www.linkedin.com/jobs/search-results/?currentJobId=4420212436&keywords=%28est%C3%A1gio%20OR%20junior%20OR%20trainee%29%20AND%20%28backend%20OR%20devops%20OR%20devsecops%20OR%20%22cloud%20engineer%22%29&origin=JOBS_HOME_SEARCH_BUTTON")
-        pagina.wait_for_timeout(9000)
+        pagina.goto(  f"https://www.linkedin.com/jobs/search-results/?keywords={quote(busca)}")
+        pagina.wait_for_timeout(15000)
         titulo = pagina.query_selector_all("span[aria-hidden='true']")
         cards = pagina.query_selector_all("[componentkey^='job-card-component-ref-'][role='button']")
 
@@ -49,4 +76,3 @@ def buscar_vagas():
         for t ,l,r in zip(lista_titulos,lista_link,lista_requisitos):
             print(t,l,r)
     return lista_titulos,lista_link,lista_requisitos
-
